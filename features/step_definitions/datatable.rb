@@ -1,3 +1,4 @@
+
 # # Este passo recebe a tabela do cenário.
 # # O objeto 'table' contém os dados em formato de matriz.
 # Dado(/^que eu tenho umas laranjas\s*$/) do |table|
@@ -47,33 +48,46 @@
 #   puts @total
 # end
 
-# Primeiro cenário: tem a palavra "eu" e usa @laranja (singular)
+
+
+# Primeiro cenário: recebe a tabela em formato chave/valor
+# Exemplo: |laranja | 10 |
 Dado("que eu tenho umas laranjas") do |table|
-  puts @laranja = table.rows_hash['laranja'].to_i
+  # rows_hash transforma a tabela em um hash e pega o valor da chave 'laranja'.
+  @laranja = table.rows_hash['laranja'].to_i
 end
 
+# O cenário diz que eu vou cortar 2 laranjas.
+# Então subtraio essa quantidade da quantidade inicial.
 Quando("eu corto {int} laranjas") do |valor1|
   @cortar = valor1
   @total = @laranja - @cortar
 end
 
-Entao("eu verifico quantas laranjas sobraram inteiras.") do
+# Verifica se sobraram 8 laranjas inteiras.
+Entao("eu verifico quantas laranjas sobraram inteiros") do
   expect(@total).to eq 8
 end
 
-
-# Segundo cenário: NÃO tem a palavra "eu" e usa @laranjas (plural)
+# Segundo cenário: recebe a tabela em formato vertical
+# Exemplo:
+# |laranja|
+# |10     |
 Dado("que tenho umas laranjas") do |table|
+  # hashes percorre cada linha como um hash e pega o valor da coluna 'laranja'.
   table.hashes.each do |valor|
-     @laranjas = valor['laranja'].to_i
+    @laranjas = valor['laranja'].to_i
   end
 end
 
+# O cenário diz que eu vou chupar 2 laranjas.
+# Então subtraio essa quantidade da quantidade inicial.
 Quando("eu chupo {int} laranjas") do |valor2|
   @chupei = valor2
-  @resultado = @laranjas - @chupei   # <--- Aqui usa @laranjas (plural)
+  @resultado = @laranjas - @chupei
 end
 
+# Verifica se sobraram 8 laranjas.
 Entao("eu verifico quantas laranjas sobraram") do
   expect(@resultado).to eq 8
 end
