@@ -12,7 +12,7 @@ Então eu verifico quantas laranjas sobraram inteiros
 
 
 Cenario: Chupar laranjas
-Dado que eu tenho umas laranjas
+Dado que tenho umas laranjas
 |laranja|  
 |10     | 
 Quando eu chupo 2 laranjas 
