@@ -1,1 +1,3 @@
 default: --format pretty --publish-quiet
+html: --format html --out reports/cucumber.html --publish-quiet
+capybara: --format pretty --publish-quiet Capybara/features
