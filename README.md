@@ -1,55 +1,69 @@
 <div align="center">
 
-# 🧪 Cucumber Automation Study Lab
+# Cucumber Automation
 
-  <p align="center">
-    <strong>Projeto de Estudos de Automação de Testes BDD com Ruby, Cucumber e Capybara</strong>
-  </p>
+Automação de testes BDD com Ruby, Cucumber, Capybara, Selenium e RSpec.
 
-  <p align="center">
-    <a href="#-sobre-o-projeto">Sobre</a> •
-    <a href="#-tecnologias">Tecnologias</a> •
-    <a href="#-estrutura-do-projeto">Estrutura</a> •
-    <a href="#-como-executar">Como Executar</a> •
-    <a href="#-boas-praticas">Boas Práticas</a>
-  </p>
+</div>
 
- <p align="center">
-    <img src="https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white" alt="Ruby" />
-    <img src="https://img.shields.io/badge/Cucumber-23B974?style=for-the-badge&logo=cucumber&logoColor=white" alt="Cucumber" />
-    <img src="https://img.shields.io/badge/Capybara_Gem-228B22?style=for-the-badge&logo=ruby&logoColor=white" alt="Capybara" />
-    <img src="https://img.shields.io/badge/RSpec-EE6E73?style=for-the-badge&logo=rspec&logoColor=white" alt="RSpec" />
-    <img src="https://img.shields.io/badge/License-MIT-007ACC?style=for-the-badge" alt="License" />
-  </p>
+## Estrutura
 
----
+```text
+features/
+  specs/                 # Cenários escritos em Gherkin
+  step_definitions/      # Implementação dos passos
+  support/
+    env.rb               # Configuração compartilhada do Cucumber
+    hooks.rb             # Hooks executados antes/depois dos cenários
+Capybara/
+  features/
+    specs/               # Cenários da suíte de navegador
+    step_definitions/    # Passos da suíte de navegador
+    support/             # Configuração e hooks da suíte de navegador
+Gemfile                  # Dependências Ruby
+cucumber.yml             # Perfis de execução do Cucumber
+```
 
-## 📌 Sobre o Projeto
+As duas suítes ficam no mesmo repositório, mas são executadas separadamente. Mantenha os cenários, steps e suporte de cada uma dentro da respectiva pasta `features/`.
 
-Este repositório foi desenvolvido para fins de **estudo e consolidação de conhecimentos** em Automação de Testes End-to-End (E2E) e testes de comportamento (BDD - *Behavior-Driven Development*). 
+## Configuração
 
-O foco principal do laboratório é aplicar boas práticas na escrita de cenários em linguagem natural utilizando a sintaxe **Gherkin**, aliada ao poder do ecossistema **Ruby** com **Cucumber**, **Capybara** e **RSpec**.
+Requisitos: Ruby, Bundler e Google Chrome para cenários de navegador.
 
----
+```powershell
+bundle install
+```
 
-## 🚀 Tecnologias
+Por padrão, o Capybara aponta para `http://localhost:3000`. Para usar outro endereço, defina `APP_HOST` antes de executar os testes:
 
-A stack de testes utilizada no projeto consiste em:
+```powershell
+$env:APP_HOST = 'http://localhost:4000'
+```
 
-| Tecnologia | Descrição |
-| :--- | :--- |
-| **[Ruby](https://www.ruby-lang.org/)** | Linguagem de programação base para construção dos scripts de automação. |
-| **[Cucumber](https://cucumber.io/)** | Framework de testes focado em BDD para mapeamento dos cenários em Gherkin. |
-| **[Capybara](https://github.com/teamcapybara/capybara)** | Biblioteca para simulação de interações no navegador web. |
-| **[RSpec Expectations](https://rspec.info/)** | Biblioteca de asserções/validações dos cenários de teste. |
-| **[Bundler](https://bundler.io/)** | Gerenciador de dependências e isolamento de gems no escopo do projeto. |
+Marque cenários que usam navegador com a tag `@javascript`. Eles usam Selenium com Chrome headless; cenários sem essa tag não precisam abrir o navegador.
 
----
+## Execução
 
-## 🏗️ Fluxo de Funcionamento (Arquitetura)
+```powershell
+bundle exec cucumber
+```
 
-```mermaid
-flowchart TD
-    A[📄 Cenário Gherkin .feature] -->|1. Mapeia o comportamento| B[⚙️ Step Definitions .rb]
-    B -->|2. Executa as ações no browser| C[🌐 Capybara / Selenium]
-    B -->|3. Valida os resultados| D[✅ RSpec Assertions]
+Para executar apenas cenários de navegador:
+
+```powershell
+bundle exec cucumber --tags @javascript
+```
+
+Para gerar o relatório HTML configurado em `cucumber.yml`:
+
+```powershell
+bundle exec cucumber -p html
+```
+
+Para executar a suíte futura de Capybara:
+
+```powershell
+bundle exec cucumber -p capybara
+```
+
+O relatório é gravado em `reports/cucumber.html` e não é versionado.
